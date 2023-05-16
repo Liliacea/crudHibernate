@@ -18,6 +18,9 @@ public class Student {
     @Column(name = "dateOfBirth")
     private Date dateOfBirth;
 
+    public Student() {
+    }
+
     private Student (Builder builder) {
         id = builder.id;
         surname = builder.surname;
@@ -98,5 +101,15 @@ public class Student {
         }
 
 
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", surname='" + surname + '\'' +
+                ", name='" + name + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }

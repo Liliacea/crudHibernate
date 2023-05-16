@@ -1,13 +1,17 @@
+import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 
-public class CRUDsomebody implements CRUDrepository<Student, Integer>{
+import java.util.List;
+
+public class CRUDaoImpl implements CRUDao<Student, Integer> {
 
     SessionFactory sessionFactory = HibernateRunner.getSessionFactory();
     Session session = sessionFactory.openSession();
 
-    public CRUDsomebody(Session session) {
+    public CRUDaoImpl(Session session) {
         this.session = session;
     }
 
@@ -35,8 +39,17 @@ public class CRUDsomebody implements CRUDrepository<Student, Integer>{
     }
 
     @Override
-    public Student findById(Integer id) {
-        return null;
+    public List<Student> findById(Integer id) {
+        List<Student> students = null;
+        Criteria criteria = session.createCriteria(Student.class);
+        criteria.add(Restrictions.eq("id", id));
+        students = criteria.list();
+        for (Student student : students) {
+            System.out.println(student.toString());
+
+
+        }
+        return students;
     }
 
     @Override
