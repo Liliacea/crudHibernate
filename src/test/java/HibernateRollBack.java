@@ -25,7 +25,7 @@ public class HibernateRollBack {
                     Object rsl = null;
                     if (method.getName().equals("openSession")) {
                         rsl = create(session);
-                    } else if (method.getName().equals("close")) {
+                    } else if (method.getName().equals("apply")) {
                         session.getTransaction().rollback();
                         session.close();
                     } else {

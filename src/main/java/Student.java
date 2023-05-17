@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @NotNull
     @Column(name = "id")
     private Integer id;
@@ -22,7 +22,7 @@ public class Student {
     }
 
     private Student (Builder builder) {
-        id = builder.id;
+    //    id = builder.id;
         surname = builder.surname;
         name = builder.name;
         dateOfBirth = builder.dateOfBirth;
@@ -37,6 +37,8 @@ public class Student {
     public void setId(int id) {
         this.id = id;
     }
+
+
 
     public String getSurname() {
         return surname;
@@ -63,7 +65,7 @@ public class Student {
     }
 
     public static class Builder {
-        private Integer id;
+    //    private Integer id;
         private String surname;
         //Необязательные параметры со значениями по умолчанию
 
@@ -75,10 +77,12 @@ public class Student {
 
 
         }
-       public Builder id(Integer val){
+   /*    public Builder id(Integer val){
             id = val;
             return this;
        }
+
+    */
         public Builder surname (String val) {
             surname = val;
             return this;

@@ -6,14 +6,17 @@ public class Check {
         CRUDaoImpl cruDaoImpl = new CRUDaoImpl(HibernateRunner.getSessionFactory().openSession());
        // SessionFactory sessionFactory = HibernateRunner.getSessionFactory();
       //  Session session = sessionFactory.openSession();
-        Student ivanov = new Student.Builder()
-                .id(1)
+     /*   Student ivanov = new Student.Builder()
+            //    .id(1)
                 .surname("ivanov")
                 .name("ivan")
                 .dateOfBirth(Date.valueOf(LocalDate.now()))
                 .build();
-        cruDaoImpl.findById(1);
 
+      */
+        cruDaoImpl.update(cruDaoImpl.session.get(Student.class, ));
+
+      //  cruDaoImpl.findById(ivanov.getId());
 
     }
 }

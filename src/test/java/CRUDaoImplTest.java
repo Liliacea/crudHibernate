@@ -20,7 +20,7 @@ class CRUDaoImplTest {
 @Test
     void add() {
         Student ivanov = new Student.Builder()
-                .id(1)
+           //     .id(1)
                 .surname("ivanov")
                 .name("ivan")
                 .dateOfBirth(Date.valueOf(LocalDate.now()))
