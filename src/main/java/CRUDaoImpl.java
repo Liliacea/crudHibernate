@@ -3,98 +3,67 @@ import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
 import java.util.function.Function;
-
 public class CRUDaoImpl implements CRUDao<Student,Integer> {
-
-
     SessionFactory sessionFactory;
-
 
     public CRUDaoImpl(SessionFactory factory) {
         this.sessionFactory = factory;
     }
 
     @Override
-    public   <T> T tx(Function<Session, T> command) {
+    public <T> T tx(Function<Session, T> command) {
         final Session session = sessionFactory.openSession();
         final Transaction tx = session.beginTransaction();
         try {
             T rsl = command.apply(session);
             tx.commit();
             return rsl;
-
         } catch (final Exception e) {
             session.getTransaction().rollback();
-
             throw e;
-
         } finally {
             session.close();
         }
-
-
-
     }
 
-     @Override
+    @Override
     public Student add(Student student) {
         return tx(session -> {
             session.save(student);
             return student;
         });
     }
+
     @Override
     public Student update(Student student) {
-
-
-        return tx(session-> {
-
-                student.setName("masha");
-               session.update(student);
-
+        return tx(session -> {
+            student.setName("masha");
+            session.update(student);
             return student;
-
-
         });
     }
+
     @Override
     public List<Student> findById(Integer id) {
-             return tx(session-> {
+        return tx(session -> {
             List<Student> students = null;
             Criteria criteria = session.createCriteria(Student.class);
             criteria.add(Restrictions.eq("id", id));
             students = criteria.list();
             for (Student student : students) {
                 System.out.println(student.toString());
-
-
             }
             return students;
         });
-        }
-
-
-
-
+    }
 
     @Override
     public Student delete(Student student) {
-        return tx(session-> {
+        return tx(session -> {
             student.setId(student.getId());//
-
-
-
             session.delete(student);
-
             return student;
-
-
         });
     }
-    @Override
-    public void close() {
-
-    }
-
-
 }
+

@@ -1,7 +1,7 @@
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
-import java.time.LocalDate;
+
 @Entity
 @Table(name = "public.students")
 public class Student {
@@ -22,7 +22,7 @@ public class Student {
     }
 
     private Student (Builder builder) {
-    //    id = builder.id;
+
         surname = builder.surname;
         name = builder.name;
         dateOfBirth = builder.dateOfBirth;
@@ -92,16 +92,10 @@ public class Student {
             dateOfBirth = val;
             return this;
         }
-
-
-        //Метод с возвращающим типом Good для генерации объекта
         public Student build() {
             return new Student(this);
         }
-
-
     }
-
     @Override
     public String toString() {
         return "Student{" +
