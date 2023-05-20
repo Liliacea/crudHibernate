@@ -6,7 +6,7 @@ import java.time.LocalDate;
 
 public class Check {
     public static void main(String[] args) {
-        CRUDaoImpl cruDaoImpl = new CRUDaoImpl(HibernateRunner.getSessionFactory().openSession());
+        CRUDaoImpl cruDaoImpl = new CRUDaoImpl(HibernateRunner.getSessionFactory());
         SessionFactory sessionFactory = HibernateRunner.getSessionFactory();
         Session session = sessionFactory.openSession();
       Student ivanov = new Student.Builder()

@@ -4,8 +4,7 @@ import org.hibernate.Transaction;
 
 import java.lang.reflect.Proxy;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
+
 import static org.mockito.Mockito.mock;
 public class HibernateRollBack {
 
@@ -25,7 +24,7 @@ public class HibernateRollBack {
                     Object rsl = null;
                     if (method.getName().equals("openSession")) {
                         rsl = create(session);
-                    } else if (method.getName().equals("apply")) {
+                    } else if (method.getName().equals("close")) {
                         session.getTransaction().rollback();
                         session.close();
                     } else {
@@ -35,6 +34,8 @@ public class HibernateRollBack {
                 }
         );
     }
+
+
 
     public static Session create(Session session) {
         return (Session) Proxy.newProxyInstance(
@@ -47,10 +48,10 @@ public class HibernateRollBack {
                         rsl = mock(Transaction.class);
                     }else if(method.getName().equals("close")){
                         rsl = null;
-                } else {
+                    } else {
                         rsl = method.invoke(session,args);
                     }
-           return rsl;
-    });
+                    return rsl;
+                });
 }
 }

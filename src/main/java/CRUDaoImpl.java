@@ -6,35 +6,32 @@ import java.util.function.Function;
 
 public class CRUDaoImpl implements CRUDao<Student,Integer> {
 
-    SessionFactory sessionFactory = HibernateRunner.getSessionFactory();
-    Session session = sessionFactory.openSession();
+
+    SessionFactory sessionFactory;
 
 
-    public CRUDaoImpl(Session session) {
-        this.session = session;
+    public CRUDaoImpl(SessionFactory factory) {
+        this.sessionFactory = factory;
     }
 
     @Override
     public   <T> T tx(Function<Session, T> command) {
+        final Session session = sessionFactory.openSession();
+        final Transaction tx = session.beginTransaction();
         try {
-            Session session = HibernateRunner.getSessionFactory().openSession();
-            final Transaction tx = session.beginTransaction();
-            try {
-                T rsl = command.apply(session);
-                tx.commit();
-                return rsl;
+            T rsl = command.apply(session);
+            tx.commit();
+            return rsl;
 
-            } catch (final Exception e) {
-                session.getTransaction().rollback();
-
-                throw e;
-
-            }
         } catch (final Exception e) {
             session.getTransaction().rollback();
 
             throw e;
+
+        } finally {
+            session.close();
         }
+
 
 
     }
@@ -51,16 +48,7 @@ public class CRUDaoImpl implements CRUDao<Student,Integer> {
 
 
         return tx(session-> {
-       /*  int id=1;
-            Query query = session.createQuery("FROM User where name = 'ivan'");
-            List<Student> students = query.list();
-            for (Student student1 : students) {
-             id = student1.getId();
-            }
 
-        */
-
-                student.setId(student.getId());
                 student.setName("masha");
                session.update(student);
 
@@ -71,27 +59,7 @@ public class CRUDaoImpl implements CRUDao<Student,Integer> {
     }
     @Override
     public List<Student> findById(Integer id) {
-     /*   try {
-            Session session = HibernateRunner.getSessionFactory().openSession();
-            session.beginTransaction();
-            {
-                Query query = session.createQuery("FROM public.students where id = id");
-                List<Student> students = query.list();
-                for (Student student : students) {
-                    System.out.println(student.toString());
-                }
-                return students;
-            }
-        } catch (final Exception e) {
-            session.getTransaction().rollback();
-            session.close();
-            throw e;
-        }
-    }
-
-      */
-
-        return tx(session-> {
+             return tx(session-> {
             List<Student> students = null;
             Criteria criteria = session.createCriteria(Student.class);
             criteria.add(Restrictions.eq("id", id));
@@ -124,8 +92,8 @@ public class CRUDaoImpl implements CRUDao<Student,Integer> {
         });
     }
     @Override
-    public void close() throws Exception {
-        session.close();
+    public void close() {
+
     }
 
 

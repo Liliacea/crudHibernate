@@ -65,24 +65,19 @@ public class Student {
     }
 
     public static class Builder {
-    //    private Integer id;
+
         private String surname;
-        //Необязательные параметры со значениями по умолчанию
+
 
         private String name;
         private Date dateOfBirth;
 
-        //Конструктор с обязательными параметрами
+
         public Builder() {
 
 
         }
-   /*    public Builder id(Integer val){
-            id = val;
-            return this;
-       }
 
-    */
         public Builder surname (String val) {
             surname = val;
             return this;
