@@ -37,6 +37,7 @@ class CRUDaoImplTest {
                 .dateOfBirth(Date.valueOf(LocalDate.now()))
                 .build();
         cruDaoImpl.add(ivanov);
+        ivanov.setName("masha");
         assertThat(cruDaoImpl.update(ivanov).getName(),is("masha"));
     }
     @Test

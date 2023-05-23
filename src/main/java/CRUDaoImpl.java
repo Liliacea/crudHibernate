@@ -37,7 +37,7 @@ public class CRUDaoImpl implements CRUDao<Student,Integer> {
     @Override
     public Student update(Student student) {
         return tx(session -> {
-            student.setName("masha");
+
             session.update(student);
             return student;
         });
@@ -60,7 +60,7 @@ public class CRUDaoImpl implements CRUDao<Student,Integer> {
     @Override
     public Student delete(Student student) {
         return tx(session -> {
-            student.setId(student.getId());//
+
             session.delete(student);
             return student;
         });
