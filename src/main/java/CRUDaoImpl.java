@@ -50,9 +50,7 @@ public class CRUDaoImpl implements CRUDao<Student,Integer> {
             Criteria criteria = session.createCriteria(Student.class);
             criteria.add(Restrictions.eq("id", id));
             students = criteria.list();
-            for (Student student : students) {
-                System.out.println(student.toString());
-            }
+
             return students;
         });
     }
